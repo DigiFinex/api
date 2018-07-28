@@ -46,7 +46,7 @@
     $arr = [
         'type' => 'kline_1m',
         'symbol' => 'usdt_btc',
-        'date' => Date_now,
+        'timestamp' => TimeStampNow,
         'apiKey' => 'YOUR_APIKEY',
         'apiSecret' => 'YOUR_APISECRET'
     ];
@@ -60,7 +60,7 @@
 	let md5 = require('md5');
 	const APIKEY = 'YOUR_APIKEY';
 	const APISECRET = 'YOUR_APISECRET';
-	let params = {type: 'kline_1m', symbol: 'usdt_btc', date: Date_now, apiKey: APIKEY, apiSecret: APISECRET}; 
+	let params = {type: 'kline_1m', symbol: 'usdt_btc', timestamp: TimeStampNow, apiKey: APIKEY, apiSecret: APISECRET}; 
 	let keys = Object.keys(params).sort(), arr = [];
 	keys.forEach(function(key){
 		arr.push(params[key]);
@@ -74,7 +74,7 @@
     m = hashlib.md5()
     APIKEY = 'YOUR_APIKEY'
     APISECRET = 'YOUR_APISECRET'
-    params = {'symbol': 'usdt_btc', 'type': 'kline_1m', 'date': Date_now, 'apiKey': APIKEY, 'apiSecret': APISECRET}
+    params = {'symbol': 'usdt_btc', 'type': 'kline_1m', 'timestamp': TimeStampNow, 'apiKey': APIKEY, 'apiSecret': APISECRET}
     keys = sorted(params.keys())
     str = ''
     for key in keys:
@@ -96,14 +96,14 @@
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|要查询的交易对，例如usdt_btc(基础币在前交易币在后)，不填则返回全部授权交易对|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -157,14 +157,14 @@ change: 24h涨跌幅百分比（当前价格与24h前价格相比）, 取值0.01
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -196,14 +196,14 @@ price: 市场价
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|1			|要查询的交易对，例如usdt_btc|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -235,7 +235,7 @@ bids: 买方深度，按价格倒序排列
 ```
 
 
-### 成交信息(暂未开放此接口)
+### 成交信息
 * URL：`https://openapi.digifinex.com/v2/trade_detail`
 * 请求方法: GET
 * 请求参数: 
@@ -244,14 +244,14 @@ bids: 买方深度，按价格倒序排列
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|1			|要查询的交易对，例如usdt_btc|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -301,14 +301,14 @@ type: buy/sell
 |symbol		|string		|1			|要查询的交易对，例如usdt_btc|
 |type			|string		|1			|K线类型: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_1d/kline\_1w|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -361,14 +361,14 @@ code: 错误码
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -408,7 +408,7 @@ BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（
 |amount		|float			|1			|交易数量|
 |type			|string		|1			|交易类型：buy/sell|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
@@ -422,7 +422,7 @@ POST参数:
 	amount=0.1
 	type=buy
 	apiKey=59328e10e296a
-	date=1410431266
+	timestamp=1410431266
 	sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
@@ -451,14 +451,14 @@ order_id: 订单ID
 |type			|string		|0			|交易类型：buy/sell，不填则返回全部类型|
 |page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -531,14 +531,14 @@ orders: 订单信息按照下单时间倒序排列
 |type			|string		|0			|交易类型：buy/sell，不填则返回全部类型|
 |page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -623,14 +623,14 @@ orders: 订单信息按照下单时间倒序排列
 | :-----   	| :-----   	| :-----  | :-----   |
 |order_id		|string		|1			|要查询的订单ID|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -690,7 +690,7 @@ detail: 具体成交明细
 | :-----   	| :-----   	| :-----  | :-----   |
 |order_id		|string		|1			|要撤销的订单ID，多个订单用逗号分隔，最多支持20个订单，|
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
@@ -701,7 +701,7 @@ POST https://openapi.digifinex.com/v2/order_info
 POST参数: 
 	order_id=1000001,1000002,1000003
 	apiKey=59328e10e296a
-	date=1410431266
+	timestamp=1410431266
 	sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
@@ -734,14 +734,14 @@ fail: [撤销失败的订单ID, 错误码]
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
 |apiKey		|string		|1			|你的APIKEY|
-|date			|int			|1			|当前的UTC+8时间戳，例date=1410431266|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&date=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {

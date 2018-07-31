@@ -5,7 +5,7 @@
 
 
 # Error Code
-
+ 
 The parameter 'code' is included in the response of each Api. If its value is 0, it means that the request is successful and the return data is valid. For non-zero values, please check the table below to find error explanations. 
 
 |code|Description|

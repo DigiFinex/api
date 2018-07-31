@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2018-07-28, ©️DigiFinex
+> Version：1.1.0, Update: 2018-07-30, ©️DigiFinex
 > 
 > Api接口调用频率上限为：60次/min，超过上限后将暂停调用5分钟
 
@@ -11,8 +11,7 @@
 | 错误代码        | 详细描述    |    
 | :-----    | :-----   |    
 |0|成功|
-|10001|xxxxx|
-|10002|KEY错误|
+|10002|ApiKey错误|
 |10003|签名错误|
 |10004|参数错误|
 |10005|频率限制|
@@ -235,7 +234,7 @@ bids: 买方深度，按价格倒序排列
 ```
 
 
-### 成交信息
+### 最新成交记录
 * URL：`https://openapi.digifinex.com/v2/trade_detail`
 * 请求方法: GET
 * 请求参数: 
@@ -258,17 +257,15 @@ GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e1
 	"code":0,
 	"data":[			//按时间倒序排列
 		{
-			"date": 1410431266,
+			"date": 1420431266,
 			"price": 787.71,
 			"amount": 0.003,
-			"tid": "230433",
 			"type": "sell"
 		},
 		{
-			"date": 1420431266,
+			"date": 1410431266,
 			"price": 787.5,
 			"amount": 0.091,
-			"tid": "230435",
 			"type": "buy"
 		},
 		...
@@ -284,7 +281,6 @@ code: 错误码
 date: 成交时间
 price: 交易价格
 amount: 交易数量
-tid: 交易ID
 type: buy/sell
 
 ```
@@ -315,20 +311,20 @@ GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=
 	"code":0,
 	"data":[		//按时间正序排列
 		[
-			1410431326, //起始时间
+			1410431226, //起始时间
 			0.81428, //交易量 
-			0.00929514, //开盘 
-			0.00929414, //收盘 
-			0.00929618, //最高 
-			0.00929313 //最低
+			0.00929514, //收盘 
+			0.00939414, //最高 
+			0.00929618, //最低 
+			0.00929313 //开盘
 		],
 		[
-			1410431266, //起始时间
+			1410431366, //起始时间
 			0.81428, //交易量 
-			0.00929414, //开盘 
-			0.00929888, //收盘 
-			0.00929999, //最高 
-			0.00929111 //最低
+			0.00929414, //收盘
+			0.00949888, //最高 
+			0.00929999, //最低 
+			0.00929111 //开盘
 		],
 		...
 	]
@@ -343,7 +339,7 @@ code: 错误码
 1410431266, //起始时间
 0.81428, //交易量 
 0.00929514, //收盘 
-0.00929514, //最高 
+0.00939514, //最高 
 0.00929371, //最低 
 0.00929371 //开盘	
 
@@ -374,7 +370,7 @@ GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=
 {
 	"code":0,
 	"date":1410431266,
-	"data":
+	"data":{
 		"usdt_btc":[4，2，0.001，10.0],
 		"usdt_eth":[4，2，0.01，10.0],
 		"btc_eth":[4，4，0.01，0.001],
@@ -470,7 +466,7 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 	"orders":[			//按时间倒序排列
 		{
 			"order_id":"1234567",
-			"created_date":1410431266,
+			"created_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
 			"amount":0.2,
@@ -550,7 +546,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 	"orders":[			//按时间倒序排列
 		{
 			"order_id":"1234567",
-			"created_date":1410431266,
+			"created_date":1430431266,
 			“finished_date”:1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
@@ -562,7 +558,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		},
 		{
 			"order_id":"1234568",
-			"created_date":1430431266,
+			"created_date":1410431266,
 			“finished_date”:1440431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
@@ -574,7 +570,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		},
 		{
 			"order_id":"1234568",
-			"created_date":1450431266,
+			"created_date":1400431266,
 			“finished_date”:1460431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
@@ -643,21 +639,21 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 	"avg_price":6000.11,
 	"type":"buy",
 	"status":2
-	"detail":{	//按时间倒序排列
+	"detail":[	//按时间倒序排列
 		{
-			"date":1420431266,
+			"date":1430431266,
 			"executed_amount":0.10000000,
 			"executed_price":6000.11,
 			"tid":"230435"
 		},
 		{
-			"date":1430431266,
+			"date":1420431266,
 			"executed_amount":0.10000000,
 			"executed_price":6000.11,
 			"tid":"230436"
 		},
 		...
-	}
+	]
 }
 ```
 

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2018-07-30, ©️DigiFinex
+> Version：1.1.0, Update: 2018-07-31, ©️DigiFinex
 > 
 > Api接口调用频率上限为：60次/min，超过上限后将暂停调用5分钟
 
@@ -669,7 +669,7 @@ executed_amount: 已成交数量
 avg_price: 平均成交价格
 type: buy买单，sell卖单
 status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
-detail: 具体成交明细
+detail: 具体成交明细（仅支持最近15天的数据）
 	date: 成交时间
 	executed_amount: 成交数量
 	executed_price: 成交价格

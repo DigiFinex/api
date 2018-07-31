@@ -1,11 +1,11 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2018-07-30, ©️DigiFinex
+> Version：1.1.0, Update: 2017-07-31, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60/min. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 
 
 # Error Code
- 
+
 The parameter 'code' is included in the response of each Api. If its value is 0, it means that the request is successful and the return data is valid. For non-zero values, please check the table below to find error explanations. 
 
 |code|Description|
@@ -684,7 +684,7 @@ status: order status：
 	2: fulfilled 
 	3: unfilled and cancelled 
 	4: partially filled and cancelled
-detail: 
+detail: transaction detail of last 15 days
 	date: executed timestamp
 	executed_amount: executed amount
 	executed_price: executed_price

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2017-07-31, ©️DigiFinex
+> Version：1.1.0, Update: 2018-07-31, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60/min. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 

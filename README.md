@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2018-07-31, ©️DigiFinex
+> Version：1.1.1, Update: 2018-08-16, ©️DigiFinex
 > 
 > Api接口调用频率上限为：60次/min，超过上限后将暂停调用5分钟
 
@@ -608,6 +608,71 @@ orders: 订单信息按照下单时间倒序排列
 	status: 订单状态：2全部成交 3已撤销未成交 4已撤销部分成交
 ```
 
+### 订单信息查询
+
+* URL：`https://openapi.digifinex.com/v2/order_info`
+* 请求方法: GET
+* 请求参数: 
+
+|参数名			|参数类型		|必填		|描述|
+| :-----   	| :-----   	| :-----  | :-----   |
+|order_id		|string		|1			|要查询的订单ID，多个订单用逗号分隔，最多支持20个订单|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
+
+* 示例：
+
+```
+# Request
+GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+
+# Response
+{
+	"code":0,
+	"data":[
+		{
+			"order_id":"1000001",
+			"created_date":1410431266,
+			"finished_date":0,
+			"price":6001.12,
+			"amount":0.2,
+			"executed_amount":0.2,
+			"avg_price":6000.11,
+			"type":"buy",
+			"status":2
+		},
+		{
+			"order_id":"1000002",
+			"created_date":1510431266,
+			"finished_date":0,
+			"price":6001.12,
+			"amount":0.2,
+			"executed_amount":0.2,
+			"avg_price":6000.11,
+			"type":"buy",
+			"status":2
+		}
+	]
+}
+```
+
+* 返回值说明：
+
+```
+code: 错误码
+order_id: 订单号
+created_date: 下单时间
+finished_date: 订单全部成交时间或撤单时间
+price: 委托价格
+amount: 委托数量
+executed_amount: 已成交数量
+avg_price: 平均成交价格
+type: buy买单，sell卖单
+status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
+```
+
+
 
 ### 订单成交明细
 
@@ -631,6 +696,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 # Response
 {
 	"code":0,
+	"order_id":"1234568",
 	"created_date":1410431266,
 	"finished_date":0,
 	"price":6001.12,
@@ -661,6 +727,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 
 ```
 code: 错误码
+order_id: 订单号
 created_date: 下单时间
 finished_date: 订单全部成交时间或撤单时间
 price: 委托价格
@@ -684,7 +751,7 @@ detail: 具体成交明细（仅支持最近15天的数据）
 
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|order_id		|string		|1			|要撤销的订单ID，多个订单用逗号分隔，最多支持20个订单，|
+|order_id		|string		|1			|要撤销的订单ID，多个订单用逗号分隔，最多支持20个订单|
 |apiKey		|string		|1			|你的APIKEY|
 |timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
@@ -693,7 +760,7 @@ detail: 具体成交明细（仅支持最近15天的数据）
 
 ```
 # Request
-POST https://openapi.digifinex.com/v2/order_info
+POST https://openapi.digifinex.com/v2/cancel_order
 POST参数: 
 	order_id=1000001,1000002,1000003
 	apiKey=59328e10e296a

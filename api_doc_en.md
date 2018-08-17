@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.0, Update: 2018-07-31, ©️DigiFinex
+> Version：1.1.1, Update: 2018-08-17, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60/min. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 
@@ -519,9 +519,7 @@ orders: order detail in time descending order
 
 
 ### Order history
-> Open order not included
-> 
-> Only supports historical orders of last 3 days
+> Open order not included. Only supports historical orders of last 3 days
 
 * URL：`https://openapi.digifinex.com/v2/order_history`
 * Request Method: GET
@@ -618,6 +616,76 @@ orders: order details
 		4: partially filled and cancelled
 ```
 
+### Order Information
+> A quick lookup of order status, mutiple order IDs supported
+
+* URL：`https://openapi.digifinex.com/v2/order_info`
+* Request Method: GET
+* Request Parameters: 
+
+|Param Name	|Type			|Mandatory|Description|
+| :-----   	| :-----   	| :-----  | :-----   |
+|order_id		|string		|1			|Order ID to look up，multiple orders are seperated by a comma ',', 20 IDs for maximum|
+|apiKey		|string		|1			|Your ApiKey|
+|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
+|sign			|string		|1			|Parameter signature|
+
+* Example：
+
+```
+# Request
+GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+
+# Response
+{
+	"code":0,
+	"data":[
+		{
+			"order_id":"1000001",
+			"created_date":1410431266,
+			"finished_date":0,
+			"price":6001.12,
+			"amount":0.2,
+			"executed_amount":0.2,
+			"avg_price":6000.11,
+			"type":"buy",
+			"status":2
+		},
+		{
+			"order_id":"1000002",
+			"created_date":1510431266,
+			"finished_date":0,
+			"price":6001.12,
+			"amount":0.2,
+			"executed_amount":0.2,
+			"avg_price":6000.11,
+			"type":"buy",
+			"status":2
+		}
+	]
+}
+```
+
+* Return value explanation:
+
+```
+code: Error Code
+order_id: order ID
+created_date: timestamp at order placement
+finished_date: timestamp at order fulfillment or cancel
+price: price
+amount: amount
+executed_amount: executed amount
+avg_price: average executed amount
+type: buy, sell
+status: order status：
+	0: unfilled 
+	1: partially filled 
+	2: fulfilled 
+	3: unfilled and cancelled 
+	4: partially filled and cancelled
+```
+
 
 ### Order detail
 
@@ -641,6 +709,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 # Response
 {
 	"code":0,
+	"order_id":"1234568",
 	"created_date":1410431266,
 	"finished_date":0,
 	"price":6001.12,
@@ -671,6 +740,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 
 ```
 code: Error Code
+order_id: order ID
 created_date: timestamp at order placement
 finished_date: timestamp at order fulfillment or cancel
 price: price

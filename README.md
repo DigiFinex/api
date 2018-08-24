@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.1, Update: 2018-08-16, ©️DigiFinex
+> Version：1.1.2, Update: 2018-08-23, ©️DigiFinex
 > 
 > Api接口调用频率上限为：60次/min，超过上限后将暂停调用5分钟
 
@@ -444,7 +444,7 @@ order_id: 订单ID
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|要查询交易对，例：usdt_btc，不填返回全部交易对|
-|type			|string		|0			|交易类型：buy/sell，不填则返回全部类型|
+|type			|string		|0			|交易类型：buy/sell/buy\_market/sell\_market，不填则返回全部类型|
 |page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
 |apiKey		|string		|1			|你的APIKEY|
 |timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
@@ -469,10 +469,11 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 			"created_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
-			"amount":0.2,
+			"amount":0.0,
 			"executed_amount":0.1,
+			"cash_amount":1000.12,
 			"avg_price":6000.12,
-			"type":"buy",
+			"type":"buy_market",
 			"status":1
 		},
 		{
@@ -482,6 +483,7 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.0,
+			"cash_amount":0.0,
 			"avg_price":0.0,
 			"type":"sell",
 			"status":0
@@ -507,8 +509,9 @@ orders: 订单信息按照下单时间倒序排列
 	price: 订单价格
 	amount: 订单数量
 	executed_amount: 已成交数量
+	cash_amount: 委托金额，不适用显示0.0
 	avg_price: 平均成交价格，未成交显示0.0
-	type: buy买单，sell卖单
+	type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
 	status: 订单状态：0未成交 1部分成交
 ```
 
@@ -524,7 +527,7 @@ orders: 订单信息按照下单时间倒序排列
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|要查询交易对，例：usdt_btc，不填返回全部交易对|
 |date			|string		|0			|要查询的下单日期(UTC+8)，例date=2018-07-18，不填默认为当天。|
-|type			|string		|0			|交易类型：buy/sell，不填则返回全部类型|
+|type			|string		|0			|交易类型：buy/sell/buy\_market/sell\_market，不填则返回全部类型|
 |page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
 |apiKey		|string		|1			|你的APIKEY|
 |timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
@@ -540,18 +543,19 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 {
 	"code":0,
 	"date":1410431266,
-	“total”:123,
+	"total":123,
 	"page":1,
 	"num_per_page":20,
 	"orders":[			//按时间倒序排列
 		{
 			"order_id":"1234567",
 			"created_date":1430431266,
-			“finished_date”:1420431266,
+			"finished_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
 			"amount":0.2,
 			"executed_amount":0.1,
+			"cash_amount":0.0,
 			"avg_price":6000.00,
 			"type":"buy",
 			"status":1
@@ -559,11 +563,12 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		{
 			"order_id":"1234568",
 			"created_date":1410431266,
-			“finished_date”:1440431266,
+			"finished_date":1440431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0,
+			"cash_amount":0.0,
 			"avg_price":0.0,
 			"type":"sell",
 			"status":0
@@ -571,11 +576,12 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		{
 			"order_id":"1234568",
 			"created_date":1400431266,
-			“finished_date”:1460431266,
+			"finished_date":1460431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"sell",
 			"status":2
@@ -603,8 +609,9 @@ orders: 订单信息按照下单时间倒序排列
 	price: 订单价格
 	amount: 订单数量
 	executed_amount: 已成交数量
+	cash_amount: 委托金额，不适用显示0.0
 	avg_price: 平均成交价格，未成交显示0.0
-	type: buy买单，sell卖单
+	type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
 	status: 订单状态：2全部成交 3已撤销未成交 4已撤销部分成交
 ```
 
@@ -638,6 +645,7 @@ GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"buy",
 			"status":2
@@ -649,6 +657,7 @@ GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"buy",
 			"status":2
@@ -667,8 +676,9 @@ finished_date: 订单全部成交时间或撤单时间
 price: 委托价格
 amount: 委托数量
 executed_amount: 已成交数量
+cash_amount: 委托金额，不适用显示0.0
 avg_price: 平均成交价格
-type: buy买单，sell卖单
+type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
 status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
 ```
 
@@ -702,6 +712,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 	"price":6001.12,
 	"amount":0.2,
 	"executed_amount":0.2,
+	"cash_amount":0.0,
 	"avg_price":6000.11,
 	"type":"buy",
 	"status":2
@@ -733,8 +744,9 @@ finished_date: 订单全部成交时间或撤单时间
 price: 委托价格
 amount: 委托数量
 executed_amount: 已成交数量
+cash_amount: 委托金额，不适用显示0.0
 avg_price: 平均成交价格
-type: buy买单，sell卖单
+type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
 status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
 detail: 具体成交明细（仅支持最近15天的数据）
 	date: 成交时间

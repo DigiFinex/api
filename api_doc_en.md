@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.1, Update: 2018-08-17, ©️DigiFinex
+> Version：1.1.2, Update: 2017-08-23, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60/min. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 
@@ -23,11 +23,11 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |20003|Invalid price or amount|
 |20004|Price exceeds daily limit|
 |20005|Price exceeds down limit|
-|20006|Total Transaction is less than 10CNY|
+|20006|Cash Amount is less than 10CNY|
 |20007|Price precision error|
 |20008|Amount precision error|
 |20009|Amount is less than the minimum requirement|
-|20010|Total Transaction is less than the minimum requirement|
+|20010|Cash Amount is less than the minimum requirement|
 |20011|Insufficient balance|
 |20012|Invalid trade type (valid value: buy/sell)|
 |20013|No such order|
@@ -385,16 +385,16 @@ GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=
 ```
 code: Error Code
 date: Second timestamp whern server returned the response
-[4，2，0.001，10.0]：amount precision, price precision, minimum amount, minimum total transaction (total transaction = price * amount) 
+[4，2，0.001，10.0]：amount precision, price precision, minimum amount, minimum cash amount (cash amount = price * amount) 
 
 E.g. "usdt_btc":[4，2，0.001，10.0]
 	Quote asset is usdt, base asset is btc. 
 	Amount(BTC) supports 4 decimal places, and price(USDT) supports 2 decimal places. 
-	The minimum amount is 0.001BTC and the minimum total transaction is 10USDT. 
+	The minimum amount is 0.001BTC and the minimum cash amount is 10USDT. 
 	The limit order would be placed successfully if all the requirements above are fulfilled. 
 ```
 
-### Limit order
+### Limit price order
 
 * URL：`https://openapi.digifinex.com/v2/trade`
 * Request Method: POST
@@ -447,7 +447,7 @@ order_id: Order ID
 |Param Name	|Type			|Mandatory|Description|
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|Sprcified trading pair, e.g. usdt_btc. None for all trading pair.|
-|type			|string		|0			|Type：buy/sell，none for all types|
+|type			|string		|0			|Type：buy/sell/buy\_market/sell\_market，none for all types|
 |page			|int			|0			|Page Num, page=1 for 1st page. None for 1st page by default. |
 |apiKey		|string		|1			|Your ApiKey|
 |timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
@@ -474,6 +474,7 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 			"price":6000.12,
 			"amount":0.2,
 			"executed_amount":0.1,
+			"cash_amount":1000.12,
 			"avg_price":6000.12,
 			"type":"buy",
 			"status":1
@@ -485,6 +486,7 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.0,
+			"cash_amount":0.0,
 			"avg_price":0.0,
 			"type":"sell",
 			"status":0
@@ -510,6 +512,7 @@ orders: order detail in time descending order
 	price: order price
 	amount: order amount
 	executed_amount: executed amount
+	cash_amount: cash amount = price * amount
 	avg_price: average executed price, 0.0 for unfilled
 	type: buy, sell
 	status: order status: 
@@ -529,7 +532,7 @@ orders: order detail in time descending order
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|Sprcified trading pair, e.g. usdt_btc. None for all trading pair.|
 |date			|string		|0			|The date(UTC+8) to look up，e.g. date=2018-07-18. None for the present day.|
-|type			|string		|0			|Type：buy/sell. None for all types|
+|type			|string		|0			|Type：buy/sell/buy\_market/sell\_market. None for all types|
 |page			|int			|0			|Page Num, page=1 for 1st page. None for 1st page by default. |
 |apiKey		|string		|1			|Your ApiKey|
 |timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
@@ -545,18 +548,19 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 {
 	"code":0,
 	"date":1410431266,
-	“total”:123,
+	"total":123,
 	"page":1,
 	"num_per_page":20,
 	"orders":[			//in time descending order
 		{
 			"order_id":"1234567",
 			"created_date":1440431266,
-			“finished_date”:1420431266,
+			"finished_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
 			"amount":0.2,
 			"executed_amount":0.1,
+			"cash_amount":0.0,
 			"avg_price":6000.00,
 			"type":"buy",
 			"status":1
@@ -564,11 +568,12 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		{
 			"order_id":"1234568",
 			"created_date":1430431266,
-			“finished_date”:1440431266,
+			"finished_date":1440431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0,
+			"cash_amount":0.0,
 			"avg_price":0.0,
 			"type":"sell",
 			"status":0
@@ -576,11 +581,12 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		{
 			"order_id":"1234568",
 			"created_date":1410431266,
-			“finished_date”:1460431266,
+			"finished_date":1460431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"sell",
 			"status":2
@@ -608,6 +614,7 @@ orders: order details
 	price: price
 	amount: amount
 	executed_amount: executed amount
+	cash_amount: cash amount = price * amount
 	avg_price: average executed price，0.0 for unfilled
 	type: buy, sell
 	status: order status: 
@@ -647,6 +654,7 @@ GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"buy",
 			"status":2
@@ -658,6 +666,7 @@ GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=
 			"price":6001.12,
 			"amount":0.2,
 			"executed_amount":0.2,
+			"cash_amount":0.0,
 			"avg_price":6000.11,
 			"type":"buy",
 			"status":2
@@ -676,6 +685,7 @@ finished_date: timestamp at order fulfillment or cancel
 price: price
 amount: amount
 executed_amount: executed amount
+cash_amount: cash amount = price * amount
 avg_price: average executed amount
 type: buy, sell
 status: order status：
@@ -715,6 +725,7 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 	"price":6001.12,
 	"amount":0.2,
 	"executed_amount":0.2,
+	"cash_amount":0.0,
 	"avg_price":6000.11,
 	"type":"buy",
 	"status":2
@@ -746,6 +757,7 @@ finished_date: timestamp at order fulfillment or cancel
 price: price
 amount: amount
 executed_amount: executed amount
+cash_amount: cash amount = price * amount
 avg_price: average executed amount
 type: buy, sell
 status: order status：

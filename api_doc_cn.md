@@ -1,10 +1,12 @@
 # DigiFinex API Documentation
-> Version：1.1.2, Update: 2018-08-23, ©️DigiFinex
+> Version：1.1.2, Update: 2018-09-07, ©️DigiFinex
 > 
-> Api接口调用频率上限为：60次/min，超过上限后将暂停调用5分钟
+> Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
+> 
+> 更多问题可加入电报群交流：https://t.me/digifinex_api
 
 
-# 错误码
+## 错误码
 
 调用每一个接口的返回值中都会包含code参数。code取0表示接口调用成功，可正常返回结果数据。若code取值非0，表示接口调用出错，则不会返回结果数据，请参照下表查看错误原因。
 
@@ -136,7 +138,7 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a&timestamp=14104
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳 
+date: 服务器返回数据时的时间戳（UTC+8） 
 usdt_btc: 交易对symbol，表示以usdt作为基础币，btc作为交易币
 buy: [买一价, 买一量]
 high: 24h最高价
@@ -180,7 +182,7 @@ GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&times
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 price: 市场价
 	cny_usdt:通过otc代理购买出售usdt的中间价
 ```
@@ -225,7 +227,7 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳 
+date: 服务器返回数据时的时间戳（UTC+8） 
 asks: 卖方深度，按价格正序排列
 	[价格，数量]
 bids: 买方深度，按价格倒序排列
@@ -384,7 +386,7 @@ GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 [4，2，0.001，10.0]：数量精度，价格精度，最小下单数量，最小下单金额
 例："usdt_btc":[4，2，0.001，10.0]
 BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（以USDT计价）支持2位小数，最小下单0.001BTC，最小下单总金额10USDT。必须同时满足以上条件才可下单成功。
@@ -498,7 +500,7 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 total: 活跃订单总数
 page: 当前页码
 num_per_page: 每页返回的记录条数
@@ -597,7 +599,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 total: 所选日期记录总条数
 page: 当前页码
 num_per_page: 每页返回的记录条数
@@ -795,7 +797,7 @@ POST参数:
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 success: 撤销成功的订单ID
 fail: [撤销失败的订单ID, 错误码]
 ```
@@ -840,10 +842,11 @@ GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&timestamp=1
 
 ```
 code: 错误码
-date: 服务器返回数据时的时间戳
+date: 服务器返回数据时的时间戳（UTC+8）
 free: 账户可用余额
 frozen: 账户冻结余额
 
 ```
+
 
 

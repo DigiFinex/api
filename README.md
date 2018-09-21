@@ -1,7 +1,9 @@
 # DigiFinex API Documentation
-> Version：1.1.2, Update: 2018-09-07, ©️DigiFinex
+> Version：1.1.3, Update: 2018-09-20, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
+> 
+> Post请求采用：content-type: application/x-www-form-urlencoded
 > 
 > 更多问题可加入电报群交流：https://t.me/digifinex_api
 
@@ -847,6 +849,5 @@ free: 账户可用余额
 frozen: 账户冻结余额
 
 ```
-
 
 

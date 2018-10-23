@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.3, Update: 2018-09-20, ©️DigiFinex
+> Version：1.1.4, Update: 2018-10-18, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -98,14 +98,13 @@ Take the kline api for example:
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|Specified trading pair, e.g. usdt_btc (quote asset is in the front). None for all authorized trading pairs.|
 |apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+
 
 * Example：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 
 # Response
 {

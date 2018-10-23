@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.3, Update: 2018-09-20, ©️DigiFinex
+> Version：1.1.4, Update: 2018-10-18, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
@@ -99,14 +99,12 @@
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|0			|要查询的交易对，例如usdt_btc(基础币在前交易币在后)，不填则返回全部授权交易对|
 |apiKey		|string		|1			|你的APIKEY|
-|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
-|sign			|string		|1			|参数签名|
 
 * 示例：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 
 # Response
 {

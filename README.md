@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.4, Update: 2018-10-18, ©️DigiFinex
+> Version：1.1.5, Update: 2018-10-30, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -67,7 +67,7 @@ Take the kline api for example:
 	keys.forEach(function(key){
 		arr.push(params[key]);
 	});
-   let sign = md5(arr.join(''));
+	let sign = md5(arr.join(''));
 	console.log(sign);
 
 [Python]
@@ -85,6 +85,51 @@ Take the kline api for example:
     encodestr = m.hexdigest()
     print encodestr
 
+[JAVA]
+	import java.util.*;
+	import java.security.MessageDigest;
+	public class Demo {
+		private static String MD5(String s) {
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] bytes = md.digest(s.getBytes("utf-8"));
+				return toHex(bytes);
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	
+		private static String toHex(byte[] bytes) {
+			final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+			StringBuilder ret = new StringBuilder(bytes.length * 2);
+			for (int i=0; i<bytes.length; i++) {
+				ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
+				ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+			}
+			return ret.toString();
+		}
+	
+		public static void main(String[] args) {
+			Map<String, Object> treemap = new TreeMap<String, Object>();
+			treemap.put("symbol", "usdt_btc");
+			treemap.put("type", "kline_1m");
+			treemap.put("timestamp", new Date().getTime()/1000);
+			treemap.put("apiKey", "YOUR_APIKEY");
+			treemap.put("apiSecret", "YOUR_APISECRET");
+	
+			String str = "";
+			Iterator titer = treemap.entrySet().iterator();
+			while(titer.hasNext()){
+				Map.Entry ent = (Map.Entry)titer.next();
+		   		String key = ent.getKey().toString();
+		   		String value = ent.getValue().toString();
+				str += value;
+			}
+			System.out.println(str);
+			System.out.println(MD5(str));
+	   }
+	}
 ```
 
 ## Market Information
@@ -116,7 +161,7 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 			"high":6751.00,
 			"last":6713.95,
 			"low":6617.60,
-			"sell":[6714.12, 0.3],
+			"sell":6714.12,
 			"vol":15091.39199642,
 			"change":0.0108
 		},
@@ -125,7 +170,7 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 			"high":0.121186,
 			"last":0.119341,
 			"low":0.117405,
-			"sell":[0.119341, 0.1],
+			"sell":0.119341,
 			"vol":39159.39199642,
 			"change":-0.0812
 		},
@@ -140,11 +185,11 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 code: Error Code
 date: Second timestamp whern server returned the response 
 usdt_btc: Trading pair symbol, usdt is the quote asset and btc is the base asset
-buy: [1st bid price, 1st bid amount]
+buy: 1st bid price
 high: 24h highest price
 last: latest price
 low: 24h lowest price
-sell: [1st ask price, 1st ask amount]
+sell: 1st ask price
 vol: 24h volume
 change: 24h Change（compared with price 24h ago）, 0.0108 means +1.08% increasement
 

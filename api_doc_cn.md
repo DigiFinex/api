@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.4, Update: 2018-10-18, ©️DigiFinex
+> Version：1.1.5, Update: 2018-10-30, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
@@ -68,7 +68,7 @@
 	keys.forEach(function(key){
 		arr.push(params[key]);
 	});
-   let sign = md5(arr.join(''));
+	let sign = md5(arr.join(''));
 	console.log(sign);
 
 [Python]
@@ -86,6 +86,51 @@
     encodestr = m.hexdigest()
     print encodestr
 
+[JAVA]
+	import java.util.*;
+	import java.security.MessageDigest;
+	public class Demo {
+		private static String MD5(String s) {
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] bytes = md.digest(s.getBytes("utf-8"));
+				return toHex(bytes);
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	
+		private static String toHex(byte[] bytes) {
+			final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+			StringBuilder ret = new StringBuilder(bytes.length * 2);
+			for (int i=0; i<bytes.length; i++) {
+				ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
+				ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+			}
+			return ret.toString();
+		}
+	
+		public static void main(String[] args) {
+			Map<String, Object> treemap = new TreeMap<String, Object>();
+			treemap.put("symbol", "usdt_btc");
+			treemap.put("type", "kline_1m");
+			treemap.put("timestamp", new Date().getTime()/1000);
+			treemap.put("apiKey", "YOUR_APIKEY");
+			treemap.put("apiSecret", "YOUR_APISECRET");
+	
+			String str = "";
+			Iterator titer = treemap.entrySet().iterator();
+			while(titer.hasNext()){
+				Map.Entry ent = (Map.Entry)titer.next();
+		   		String key = ent.getKey().toString();
+		   		String value = ent.getValue().toString();
+				str += value;
+			}
+			System.out.println(str);
+			System.out.println(MD5(str));
+	   }
+	}
 ```
 
 ## 市场行情
@@ -116,7 +161,7 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 			"high":6751.00,
 			"last":6713.95,
 			"low":6617.60,
-			"sell":[6714.12, 0.3],
+			"sell":6714.12,
 			"vol":15091.39199642,
 			"change":0.0108
 		},
@@ -125,7 +170,7 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 			"high":0.121186,
 			"last":0.119341,
 			"low":0.117405,
-			"sell":[0.119341, 0.1],
+			"sell":0.119341,
 			"vol":39159.39199642,
 			"change":-0.0812
 		},
@@ -140,11 +185,11 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 code: 错误码
 date: 服务器返回数据时的时间戳（UTC+8） 
 usdt_btc: 交易对symbol，表示以usdt作为基础币，btc作为交易币
-buy: [买一价, 买一量]
+buy: 买一价
 high: 24h最高价
 last: 最新成交价
 low: 24h最低价
-sell: [卖一价, 卖一量]
+sell: 卖一价
 vol: 24h成交量
 change: 24h涨跌幅百分比（当前价格与24h前价格相比）, 取值0.0108表示价格上涨1.08%
 

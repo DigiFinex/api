@@ -1,11 +1,14 @@
 # DigiFinex API Documentation
-> Version：1.1.5, Update: 2018-10-30, ©️DigiFinex
+> Version：1.1.6, Update: 2018-11-21, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
 > Post请求采用：content-type: application/x-www-form-urlencoded
 > 
 > 更多问题可加入电报群交流：https://t.me/digifinex_api
+
+## 开通API
+前往DigiFinex官网（www.digifinex.com），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
 
 
 ## 错误码
@@ -89,8 +92,9 @@
 [JAVA]
 	import java.util.*;
 	import java.security.MessageDigest;
+	
 	public class Demo {
-		private static String MD5(String s) {
+		private static String md5(String s) {
 			try {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] bytes = md.digest(s.getBytes("utf-8"));
@@ -102,11 +106,11 @@
 		}
 	
 		private static String toHex(byte[] bytes) {
-			final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+			final char[] hexDigits = "0123456789abcdef".toCharArray();
 			StringBuilder ret = new StringBuilder(bytes.length * 2);
 			for (int i=0; i<bytes.length; i++) {
-				ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
-				ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+				ret.append(hexDigits[(bytes[i] >> 4) & 0x0f]);
+				ret.append(hexDigits[bytes[i] & 0x0f]);
 			}
 			return ret.toString();
 		}
@@ -128,7 +132,7 @@
 				str += value;
 			}
 			System.out.println(str);
-			System.out.println(MD5(str));
+			System.out.println(md5(str));
 	   }
 	}
 ```

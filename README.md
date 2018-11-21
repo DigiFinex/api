@@ -1,46 +1,50 @@
 # DigiFinex API Documentation
-> Version：1.1.5, Update: 2018-10-30, ©️DigiFinex
+> Version：1.1.6, Update: 2018-11-21, ©️DigiFinex
 > 
-> The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
+> Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
-> The field contentType in request header should be: application/x-www-form-urlencoded
+> Post请求采用：content-type: application/x-www-form-urlencoded
 > 
-> Join the Telegram Group for more help: https://t.me/digifinex_api
+> 更多问题可加入电报群交流：https://t.me/digifinex_api
+
+## 开通API
+前往DigiFinex官网（www.digifinex.com），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
 
 
-## Error Code
-The parameter 'code' is included in the response of each Api. If its value is 0, it means that the request is successful and the return data is valid. For non-zero values, please check the table below to find error explanations. 
+## 错误码
 
-|code|Description|
-|:----|:-----|    
-|0|Success|
-|10002|Invalid ApiKey|
-|10003|Sign doesn't match|
-|10004|Illegal request parameters|
-|10005|Request frequency exceeds the limit|
-|10006|Unauthorized to execute this request|
-|10007|IP address Unauthorized|
-|10008|Timestamp for this request is invalid|
-|20001|Trade is not open for this trading pair|
-|20002|Trade of this trading pair is suspended|
-|20003|Invalid price or amount|
-|20004|Price exceeds daily limit|
-|20005|Price exceeds down limit|
-|20006|Cash Amount is less than 10CNY|
-|20007|Price precision error|
-|20008|Amount precision error|
-|20009|Amount is less than the minimum requirement|
-|20010|Cash Amount is less than the minimum requirement|
-|20011|Insufficient balance|
-|20012|Invalid trade type (valid value: buy/sell)|
-|20013|No such order|
-|20014|Invalid date (Valid format: 2018-07-25)|
-|20015|Dates exceed the limit|
+调用每一个接口的返回值中都会包含code参数。code取0表示接口调用成功，可正常返回结果数据。若code取值非0，表示接口调用出错，则不会返回结果数据，请参照下表查看错误原因。
 
-## Parameter signature 
-The 'sign' parameter is demanded for each api request. It is obtained by sorting all request parameters (without sign) and ApiSecret firstly and then perfoming the MD5.   
+| 错误代码        | 详细描述    |    
+| :-----    | :-----   |    
+|0|成功|
+|10002|ApiKey错误|
+|10003|签名错误|
+|10004|参数错误|
+|10005|频率限制|
+|10006|无权限|
+|10007|访问者IP不在白名单内|
+|10008|时间戳不在1分钟内|
+|20001|交易未开启，请在交易时间内进行交易|
+|20002|该币种对暂时不允许交易|
+|20003|您的挂单价格或数量有误|
+|20004|交易价格超出了跌停价格限制|
+|20005|交易价格超出了涨停价格限制|
+|20006|交易额不能低于10元|
+|20007|价格精度限制|
+|20008|数量精度限制|
+|20009|最小交易数量限制|
+|20010|最小交易额限制|
+|20011|账户余额不足|
+|20012|无效的交易类型（buy/sell)|
+|20013|没有找到该订单|
+|20014|日期格式不对，例：2018-07-25|
+|20015|查询的订单日期超过限制|
 
-Take the kline api for example:
+## 参数签名
+在调用本文档接口时，会多次使用到参数签名sigh，该签名是将调用接口时使用到的参数（不包括sign）和私钥apiSecret排序后，再进行MD5运算得到。
+
+具体实例如下，以获取K线接口为例：
 
 ```
 [PHP]
@@ -88,8 +92,9 @@ Take the kline api for example:
 [JAVA]
 	import java.util.*;
 	import java.security.MessageDigest;
+	
 	public class Demo {
-		private static String MD5(String s) {
+		private static String md5(String s) {
 			try {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] bytes = md.digest(s.getBytes("utf-8"));
@@ -101,11 +106,11 @@ Take the kline api for example:
 		}
 	
 		private static String toHex(byte[] bytes) {
-			final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+			final char[] hexDigits = "0123456789abcdef".toCharArray();
 			StringBuilder ret = new StringBuilder(bytes.length * 2);
 			for (int i=0; i<bytes.length; i++) {
-				ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
-				ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+				ret.append(hexDigits[(bytes[i] >> 4) & 0x0f]);
+				ret.append(hexDigits[bytes[i] & 0x0f]);
 			}
 			return ret.toString();
 		}
@@ -127,25 +132,24 @@ Take the kline api for example:
 				str += value;
 			}
 			System.out.println(str);
-			System.out.println(MD5(str));
+			System.out.println(md5(str));
 	   }
 	}
 ```
 
-## Market Information
-### Ticker price
+## 市场行情
+### 交易对当前价格
 
 * URL：`https://openapi.digifinex.com/v2/ticker`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|0			|Specified trading pair, e.g. usdt_btc (quote asset is in the front). None for all authorized trading pairs.|
-|apiKey		|string		|1			|Your ApiKey|
+|symbol		|string		|0			|要查询的交易对，例如usdt_btc(基础币在前交易币在后)，不填则返回全部授权交易对|
+|apiKey		|string		|1			|你的APIKEY|
 
-
-* Example：
+* 示例：
 
 ```
 # Request
@@ -179,34 +183,34 @@ GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 }
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response 
-usdt_btc: Trading pair symbol, usdt is the quote asset and btc is the base asset
-buy: 1st bid price
-high: 24h highest price
-last: latest price
-low: 24h lowest price
-sell: 1st ask price
-vol: 24h volume
-change: 24h Change（compared with price 24h ago）, 0.0108 means +1.08% increasement
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8） 
+usdt_btc: 交易对symbol，表示以usdt作为基础币，btc作为交易币
+buy: 买一价
+high: 24h最高价
+last: 最新成交价
+low: 24h最低价
+sell: 卖一价
+vol: 24h成交量
+change: 24h涨跌幅百分比（当前价格与24h前价格相比）, 取值0.0108表示价格上涨1.08%
 
 ```
 
-### OTC Market Price
+### OTC市场价查询
 * URL：`https://openapi.digifinex.com/v2/otc_market_price`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -223,29 +227,29 @@ GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&times
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-price: Market Price
-	cny_usdt: Specified trading pair's market price
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+price: 市场价
+	cny_usdt:通过otc代理购买出售usdt的中间价
 ```
 
 
-### Market Depth
+### 买卖盘深度
 * URL：`https://openapi.digifinex.com/v2/depth`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|1			|Specified trading pair, e.g. usdt_btc|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|1			|要查询的交易对，例如usdt_btc|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -256,44 +260,44 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 	"code":0,
 	"date":1410431266,
 	"asks": [
-		[6967.14, 0.1234],  //[Price, Amount]
+		[6967.14, 0.1234],  //[价格, 数量]
 		[6967.15, 0.1234],
 		...
 	],
 	"bids":[
-		[6967.13, 0.1234],  //[Price, Amount]
+		[6967.13, 0.1234],  //[价格, 数量]
 		[6967.12, 0.1234],
 		...
 	]
 }
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response 
-asks: Ask depth in price ascending order 
-	[Price, Amount]
-bids: Bid depth in price descending order
-	[Price, Amount]
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8） 
+asks: 卖方深度，按价格正序排列
+	[价格，数量]
+bids: 买方深度，按价格倒序排列
+	[价格，数量]
 
 ```
 
 
-### Recent Trade List
+### 最新成交记录
 * URL：`https://openapi.digifinex.com/v2/trade_detail`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|1			|Specified trading pair, e.g. usdt_btc|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|1			|要查询的交易对，例如usdt_btc|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -302,7 +306,7 @@ GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e1
 # Response
 {
 	"code":0,
-	"data":[			//in time descending order
+	"data":[			//按时间倒序排列
 		{
 			"date": 1420431266,
 			"price": 787.71,
@@ -321,33 +325,33 @@ GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e1
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Deal second timestamp
-price: Executed price
-amount: Executed amount
-type: buy/sell, buy means the maker is the buyer
+code: 错误码
+date: 成交时间
+price: 交易价格
+amount: 交易数量
+type: buy/sell
 
 ```
 
 
 
-### K-line data
+### K线数据
 * URL：`https://openapi.digifinex.com/v2/kline`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|1			|Specified trading pair, e.g. usdt_btc|
-|type			|string		|1			|Kline type: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_1d/kline\_1w|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|1			|要查询的交易对，例如usdt_btc|
+|type			|string		|1			|K线类型: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_1d/kline\_1w|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -356,22 +360,22 @@ GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=
 # Response
 {
 	"code":0,
-	"data":[		//in time ascending order
+	"data":[		//按时间正序排列
 		[
-			1410431326, //open timestamp of this line
-			0.81428, //volume 
-			0.00929514, //close
-			0.00939414, //high
-			0.00929618, //low
-			0.00929313 //open
+			1410431226, //起始时间
+			0.81428, //交易量 
+			0.00929514, //收盘 
+			0.00939414, //最高 
+			0.00929618, //最低 
+			0.00929313 //开盘
 		],
 		[
-			1420431266, //open timestamp of this line
-			0.81428, //volume 
-			0.00929414, //close 
-			0.00939888, //high
-			0.00929999, //low
-			0.00929111 //open
+			1410431366, //起始时间
+			0.81428, //交易量 
+			0.00929414, //收盘
+			0.00949888, //最高 
+			0.00929999, //最低 
+			0.00929111 //开盘
 		],
 		...
 	]
@@ -379,35 +383,35 @@ GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-1410431266, //open timestamp of this line
-0.81428, //volume 
-0.00929514, //close 
-0.00939514, //high
-0.00929371, //low
-0.00929371 //open
+code: 错误码
+1410431266, //起始时间
+0.81428, //交易量 
+0.00929514, //收盘 
+0.00939514, //最高 
+0.00929371, //最低 
+0.00929371 //开盘	
 
 ```
 
 
-## Trade
-### Trading pair information
-> To obtain authorized trading pairs and the precision limit for placing orders
+## 交易
+### 交易对信息查询
+> 获取开通权限的交易对，以及每个交易对的下单精度限制
 
 * URL：`https://openapi.digifinex.com/v2/trade_pairs`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -427,42 +431,39 @@ GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-[4，2，0.001，10.0]：amount precision, price precision, minimum amount, minimum cash amount (cash amount = price * amount) 
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+[4，2，0.001，10.0]：数量精度，价格精度，最小下单数量，最小下单金额
+例："usdt_btc":[4，2，0.001，10.0]
+BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（以USDT计价）支持2位小数，最小下单0.001BTC，最小下单总金额10USDT。必须同时满足以上条件才可下单成功。
 
-E.g. "usdt_btc":[4，2，0.001，10.0]
-	Quote asset is usdt, base asset is btc. 
-	Amount(BTC) supports 4 decimal places, and price(USDT) supports 2 decimal places. 
-	The minimum amount is 0.001BTC and the minimum cash amount is 10USDT. 
-	The limit order would be placed successfully if all the requirements above are fulfilled. 
 ```
 
-### Limit price order
+### 限价下单
 
 * URL：`https://openapi.digifinex.com/v2/trade`
-* Request Method: POST
-* Request Parameters: 
+* 请求方法: POST
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|1			|Specified trading pair, e.g. usdt_btc|
-|price			|float			|1			|Price|
-|amount		|float			|1			|Amount|
-|type			|string		|1			|Type: buy/sell|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|1			|要交易的交易对，例：usdt_btc|
+|price			|float			|1			|交易价格|
+|amount		|float			|1			|交易数量|
+|type			|string		|1			|交易类型：buy/sell|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
 POST https://openapi.digifinex.com/v2/trade
-POST Parameters: 
+POST参数: 
 	symbol=usdt_btc
 	price=6000.12
 	amount=0.1
@@ -479,28 +480,28 @@ POST Parameters:
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-order_id: Order ID
+code: 错误码
+order_id: 订单ID
 ```
 
-### Open orders
+### 活跃订单查询
 * URL：`https://openapi.digifinex.com/v2/open_orders`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|0			|Sprcified trading pair, e.g. usdt_btc. None for all trading pair.|
-|type			|string		|0			|Type：buy/sell/buy\_market/sell\_market，none for all types|
-|page			|int			|0			|Page Num, page=1 for 1st page. None for 1st page by default. |
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|0			|要查询交易对，例：usdt_btc，不填返回全部交易对|
+|type			|string		|0			|交易类型：buy/sell/buy\_market/sell\_market，不填则返回全部类型|
+|page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -513,17 +514,17 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 	“total”:123,
 	"page":1,
 	"num_per_page":20,
-	"orders":[			//in time descending order
+	"orders":[			//按时间倒序排列
 		{
 			"order_id":"1234567",
 			"created_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
-			"amount":0.2,
+			"amount":0.0,
 			"executed_amount":0.1,
 			"cash_amount":1000.12,
 			"avg_price":6000.12,
-			"type":"buy",
+			"type":"buy_market",
 			"status":1
 		},
 		{
@@ -544,48 +545,46 @@ GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=5
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-total: total number of open orders
-page: present page number
-num_per_page: item quantity per page
-orders: order detail in time descending order
-	order_id: order ID
-	created_date: second timestamp at order placement
-	symbol: specified trading pair
-	price: order price
-	amount: order amount
-	executed_amount: executed amount
-	cash_amount: cash amount = price * amount
-	avg_price: average executed price, 0.0 for unfilled
-	type: buy, sell
-	status: order status: 
-		0: unfilled
-		1: partially filled
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+total: 活跃订单总数
+page: 当前页码
+num_per_page: 每页返回的记录条数
+orders: 订单信息按照下单时间倒序排列
+	order_id: 订单号
+	created_date: 下单时间
+	symbol: 交易对
+	price: 订单价格
+	amount: 订单数量
+	executed_amount: 已成交数量
+	cash_amount: 委托金额，不适用显示0.0
+	avg_price: 平均成交价格，未成交显示0.0
+	type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
+	status: 订单状态：0未成交 1部分成交
 ```
 
 
-### Order history
-> Open order not included. Only supports historical orders of last 3 days
+### 历史订单查询
+> 不包括活跃订单，只支持查询最近3天的历史订单
 
 * URL：`https://openapi.digifinex.com/v2/order_history`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|symbol		|string		|0			|Sprcified trading pair, e.g. usdt_btc. None for all trading pair.|
-|date			|string		|0			|The date(UTC+8) to look up，e.g. date=2018-07-18. None for the present day.|
-|type			|string		|0			|Type：buy/sell/buy\_market/sell\_market. None for all types|
-|page			|int			|0			|Page Num, page=1 for 1st page. None for 1st page by default. |
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|symbol		|string		|0			|要查询交易对，例：usdt_btc，不填返回全部交易对|
+|date			|string		|0			|要查询的下单日期(UTC+8)，例date=2018-07-18，不填默认为当天。|
+|type			|string		|0			|交易类型：buy/sell/buy\_market/sell\_market，不填则返回全部类型|
+|page			|int			|0			|要查询的订单页码，page=1表示第一页，不填默认返回第1页|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -598,10 +597,10 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 	"total":123,
 	"page":1,
 	"num_per_page":20,
-	"orders":[			//in time descending order
+	"orders":[			//按时间倒序排列
 		{
 			"order_id":"1234567",
-			"created_date":1440431266,
+			"created_date":1430431266,
 			"finished_date":1420431266,
 			"symbol": "usdt_btc",
 			"price":6000.12,
@@ -614,7 +613,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		},
 		{
 			"order_id":"1234568",
-			"created_date":1430431266,
+			"created_date":1410431266,
 			"finished_date":1440431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
@@ -627,7 +626,7 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 		},
 		{
 			"order_id":"1234568",
-			"created_date":1410431266,
+			"created_date":1400431266,
 			"finished_date":1460431266,
 			"symbol": "usdt_btc",
 			"price":6001.12,
@@ -645,46 +644,42 @@ GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestam
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-total: Total number for specified date
-page: present page
-num_per_page: number per page
-orders: order details
-	order_id: order ID
-	created_date: timestamp at order placement
-	finished_date: timestamp at order fulfillment or cancel
-	symbol: specified trading pair
-	price: price
-	amount: amount
-	executed_amount: executed amount
-	cash_amount: cash amount = price * amount
-	avg_price: average executed price，0.0 for unfilled
-	type: buy, sell
-	status: order status: 
-		2: fulfilled 
-		3: unfilled and cancelled 
-		4: partially filled and cancelled
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+total: 所选日期记录总条数
+page: 当前页码
+num_per_page: 每页返回的记录条数
+orders: 订单信息按照下单时间倒序排列
+	order_id: 订单号
+	created_date: 下单时间
+	finished_date: 撤销订单或完全成交时间
+	symbol: 交易对
+	price: 订单价格
+	amount: 订单数量
+	executed_amount: 已成交数量
+	cash_amount: 委托金额，不适用显示0.0
+	avg_price: 平均成交价格，未成交显示0.0
+	type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
+	status: 订单状态：2全部成交 3已撤销未成交 4已撤销部分成交
 ```
 
-### Order Information
-> A quick lookup of order status, mutiple order IDs supported
+### 订单信息查询
 
 * URL：`https://openapi.digifinex.com/v2/order_info`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|order_id		|string		|1			|Order ID to look up，multiple orders are seperated by a comma ',', 20 IDs for maximum|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|order_id		|string		|1			|要查询的订单ID，多个订单用逗号分隔，最多支持20个订单|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -722,42 +717,38 @@ GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=
 }
 ```
 
-* Return value explanation:
+* 返回值说明：
 
 ```
-code: Error Code
-order_id: order ID
-created_date: timestamp at order placement
-finished_date: timestamp at order fulfillment or cancel
-price: price
-amount: amount
-executed_amount: executed amount
-cash_amount: cash amount = price * amount
-avg_price: average executed amount
-type: buy, sell
-status: order status：
-	0: unfilled 
-	1: partially filled 
-	2: fulfilled 
-	3: unfilled and cancelled 
-	4: partially filled and cancelled
+code: 错误码
+order_id: 订单号
+created_date: 下单时间
+finished_date: 订单全部成交时间或撤单时间
+price: 委托价格
+amount: 委托数量
+executed_amount: 已成交数量
+cash_amount: 委托金额，不适用显示0.0
+avg_price: 平均成交价格
+type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
+status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
 ```
 
 
-### Order detail
+
+### 订单成交明细
 
 * URL：`https://openapi.digifinex.com/v2/order_detail`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|order_id		|string		|1			|Order ID to look up|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|order_id		|string		|1			|要查询的订单ID|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -776,15 +767,15 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 	"avg_price":6000.11,
 	"type":"buy",
 	"status":2
-	"detail":[	//in time descending order
+	"detail":[	//按时间倒序排列
 		{
-			"date":1420431266,
+			"date":1430431266,
 			"executed_amount":0.10000000,
 			"executed_price":6000.11,
 			"tid":"230435"
 		},
 		{
-			"date":1410431266,
+			"date":1420431266,
 			"executed_amount":0.10000000,
 			"executed_price":6000.11,
 			"tid":"230436"
@@ -794,51 +785,46 @@ GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e
 }
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-order_id: order ID
-created_date: timestamp at order placement
-finished_date: timestamp at order fulfillment or cancel
-price: price
-amount: amount
-executed_amount: executed amount
-cash_amount: cash amount = price * amount
-avg_price: average executed amount
-type: buy, sell
-status: order status：
-	0: unfilled 
-	1: partially filled 
-	2: fulfilled 
-	3: unfilled and cancelled 
-	4: partially filled and cancelled
-detail: transaction detail of last 15 days
-	date: executed timestamp
-	executed_amount: executed amount
-	executed_price: executed_price
-	tid: trade ID
+code: 错误码
+order_id: 订单号
+created_date: 下单时间
+finished_date: 订单全部成交时间或撤单时间
+price: 委托价格
+amount: 委托数量
+executed_amount: 已成交数量
+cash_amount: 委托金额，不适用显示0.0
+avg_price: 平均成交价格
+type: buy限价买单，sell限价卖单，buy_market市价买单，sell_market市价卖单
+status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成交 4已撤销部分成交
+detail: 具体成交明细（仅支持最近15天的数据）
+	date: 成交时间
+	executed_amount: 成交数量
+	executed_price: 成交价格
+	tid: 交易ID
 ```
 
 
-### Cancel order
+### 撤销订单
 * URL：`https://openapi.digifinex.com/v2/cancel_order`
-* Request Method: POST
-* Request Parameters: 
+* 请求方法: POST
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|order_id		|string		|1			|Order ID to cancel，multiple orders are seperated by a comma ',', 20 IDs for maximum|
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|order_id		|string		|1			|要撤销的订单ID，多个订单用逗号分隔，最多支持20个订单|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
-POST https://openapi.digifinex.com/v2/order_info
-POST Parameters: 
+POST https://openapi.digifinex.com/v2/cancel_order
+POST参数: 
 	order_id=1000001,1000002,1000003
 	apiKey=59328e10e296a
 	timestamp=1410431266
@@ -856,28 +842,28 @@ POST Parameters:
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-success: Order IDs cancelled successfully
-fail: [order ID failed to cancel, Error Code]
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+success: 撤销成功的订单ID
+fail: [撤销失败的订单ID, 错误码]
 ```
 
 
-### My Position
+### 查询自己的持仓
 * URL：`https://openapi.digifinex.com/v2/myposition`
-* Request Method: GET
-* Request Parameters: 
+* 请求方法: GET
+* 请求参数: 
 
-|Param Name	|Type			|Mandatory|Description|
+|参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
-|apiKey		|string		|1			|Your ApiKey|
-|timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
-|sign			|string		|1			|Parameter signature|
+|apiKey		|string		|1			|你的APIKEY|
+|timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
+|sign			|string		|1			|参数签名|
 
-* Example：
+* 示例：
 
 ```
 # Request
@@ -901,13 +887,13 @@ GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&timestamp=1
 
 ```
 
-* Return value explanation：
+* 返回值说明：
 
 ```
-code: Error Code
-date: Second timestamp whern server returned the response
-free: amount free
-frozen: amount frozen
+code: 错误码
+date: 服务器返回数据时的时间戳（UTC+8）
+free: 账户可用余额
+frozen: 账户冻结余额
 
 ```
 

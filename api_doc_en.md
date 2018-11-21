@@ -1,11 +1,15 @@
 # DigiFinex API Documentation
-> Version：1.1.5, Update: 2018-10-30, ©️DigiFinex
+> Version：1.1.6, Update: 2018-11-21, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
 > The field contentType in request header should be: application/x-www-form-urlencoded
 > 
 > Join the Telegram Group for more help: https://t.me/digifinex_api
+
+
+## Get ApiKey and ApiSecret
+Go to DigiFinex's official website (www.digifinex.com) and register an account. After login, go to 'User Center' -> 'API Setting' to apply your ApiKey and ApiSecret.
 
 
 ## Error Code
@@ -88,8 +92,9 @@ Take the kline api for example:
 [JAVA]
 	import java.util.*;
 	import java.security.MessageDigest;
+	
 	public class Demo {
-		private static String MD5(String s) {
+		private static String md5(String s) {
 			try {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] bytes = md.digest(s.getBytes("utf-8"));
@@ -101,11 +106,11 @@ Take the kline api for example:
 		}
 	
 		private static String toHex(byte[] bytes) {
-			final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+			final char[] hexDigits = "0123456789abcdef".toCharArray();
 			StringBuilder ret = new StringBuilder(bytes.length * 2);
 			for (int i=0; i<bytes.length; i++) {
-				ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
-				ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+				ret.append(hexDigits[(bytes[i] >> 4) & 0x0f]);
+				ret.append(hexDigits[bytes[i] & 0x0f]);
 			}
 			return ret.toString();
 		}
@@ -127,7 +132,7 @@ Take the kline api for example:
 				str += value;
 			}
 			System.out.println(str);
-			System.out.println(MD5(str));
+			System.out.println(md5(str));
 	   }
 	}
 ```

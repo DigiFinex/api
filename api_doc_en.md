@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.6, Update: 2018-11-21, ©️DigiFinex
+> Version：1.1.7, Update: 2018-11-26, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -458,6 +458,7 @@ E.g. "usdt_btc":[4，2，0.001，10.0]
 |price			|float			|1			|Price|
 |amount		|float			|1			|Amount|
 |type			|string		|1			|Type: buy/sell|
+|post_only	|int			|0			|1: yes, 0: no. post_only order will always pay the maker fee. If it is not sent into order book, this order will be cancelled automatically|
 |apiKey		|string		|1			|Your ApiKey|
 |timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
 |sign			|string		|1			|Parameter signature|
@@ -915,5 +916,3 @@ free: amount free
 frozen: amount frozen
 
 ```
-
-

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.6, Update: 2018-11-21, ©️DigiFinex
+> Version：1.1.7, Update: 2018-11-26, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
@@ -454,6 +454,7 @@ BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（
 |price			|float			|1			|交易价格|
 |amount		|float			|1			|交易数量|
 |type			|string		|1			|交易类型：buy/sell|
+|post_only	|int			|0			|1:使用，0:不使用。post_only订单将保证该订单总是支付maker手续费，该订单如果不能进入买卖盘则会自动取消。|
 |apiKey		|string		|1			|你的APIKEY|
 |timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
@@ -896,5 +897,3 @@ free: 账户可用余额
 frozen: 账户冻结余额
 
 ```
-
-

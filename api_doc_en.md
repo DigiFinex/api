@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.7, Update: 2018-11-26, ©️DigiFinex
+> Version：1.1.8, Update: 2018-01-16, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -40,9 +40,10 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |20013|No such order|
 |20014|Invalid date (Valid format: 2018-07-25)|
 |20015|Dates exceed the limit|
+|20018|Your trading rights have been banned by the system|
 
 ## Parameter signature 
-The 'sign' parameter is demanded for each api request. It is obtained by sorting all request parameters (without sign) and ApiSecret firstly and then perfoming the MD5.   
+The 'sign' parameter is demanded for each api request. Firstly sort all needed parameters (without sign) and ApiSecret in ascending order by parameters' name. Then connect all the sorted parameters' value into a string. At last perform a MD5 on this string.
 
 Take the kline api for example:
 
@@ -261,8 +262,8 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 	"code":0,
 	"date":1410431266,
 	"asks": [
-		[6967.14, 0.1234],  //[Price, Amount]
-		[6967.15, 0.1234],
+		[6967.15, 0.1234],  //[Price, Amount]
+		[6967.14, 0.1234],
 		...
 	],
 	"bids":[
@@ -278,7 +279,7 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 ```
 code: Error Code
 date: Second timestamp whern server returned the response 
-asks: Ask depth in price ascending order 
+asks: Ask depth in price descending order 
 	[Price, Amount]
 bids: Bid depth in price descending order
 	[Price, Amount]
@@ -347,7 +348,7 @@ type: buy/sell, buy means the maker is the buyer
 |Param Name	|Type			|Mandatory|Description|
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|1			|Specified trading pair, e.g. usdt_btc|
-|type			|string		|1			|Kline type: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_1d/kline\_1w|
+|type			|string		|1			|Kline type: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_4h/kline\_12h/kline\_1d/kline\_1w|
 |apiKey		|string		|1			|Your ApiKey|
 |timestamp	|int			|1			|The second timestamp(UTC+8) when the request was sent，e.g. timestamp=1410431266|
 |sign			|string		|1			|Parameter signature|
@@ -916,3 +917,5 @@ free: amount free
 frozen: amount frozen
 
 ```
+
+

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.7, Update: 2018-11-26, ©️DigiFinex
+> Version：1.1.8, Update: 2019-01-16, ©️DigiFinex
 > 
 > Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
 > 
@@ -40,9 +40,10 @@
 |20013|没有找到该订单|
 |20014|日期格式不对，例：2018-07-25|
 |20015|查询的订单日期超过限制|
+|20018|您的交易权限已被系统限制|
 
 ## 参数签名
-在调用本文档接口时，会多次使用到参数签名sigh，该签名是将调用接口时使用到的参数（不包括sign）和私钥apiSecret排序后，再进行MD5运算得到。
+在调用本文档接口时，会多次使用到参数签名sigh，该签名是将调用接口时使用到的参数（不包括sign）和私钥apiSecret按照参数名排序，再把参数值拼接成一个字符串进行MD5运算得到。
 
 具体实例如下，以获取K线接口为例：
 
@@ -260,8 +261,8 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 	"code":0,
 	"date":1410431266,
 	"asks": [
-		[6967.14, 0.1234],  //[价格, 数量]
-		[6967.15, 0.1234],
+		[6967.15, 0.1234],  //[价格, 数量]
+		[6967.14, 0.1234],
 		...
 	],
 	"bids":[
@@ -277,7 +278,7 @@ GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&
 ```
 code: 错误码
 date: 服务器返回数据时的时间戳（UTC+8） 
-asks: 卖方深度，按价格正序排列
+asks: 卖方深度，按价格倒序排列
 	[价格，数量]
 bids: 买方深度，按价格倒序排列
 	[价格，数量]
@@ -346,7 +347,7 @@ type: buy/sell
 |参数名			|参数类型		|必填		|描述|
 | :-----   	| :-----   	| :-----  | :-----   |
 |symbol		|string		|1			|要查询的交易对，例如usdt_btc|
-|type			|string		|1			|K线类型: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_1d/kline\_1w|
+|type			|string		|1			|K线类型: kline\_1m/kline\_5m/kline\_15m/kline\_30m/kline\_1h/kline\_4h/kline\_12h/kline\_1d/kline\_1w|
 |apiKey		|string		|1			|你的APIKEY|
 |timestamp	|int			|1			|请求接口时的UTC+8时间戳，例timestamp=1410431266|
 |sign			|string		|1			|参数签名|
@@ -897,3 +898,5 @@ free: 账户可用余额
 frozen: 账户冻结余额
 
 ```
+
+

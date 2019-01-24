@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.8, Update: 2018-01-16, ©️DigiFinex
+> Version：1.1.9, Update: 2018-01-23, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -18,29 +18,29 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |code|Description|
 |:----|:-----|    
 |0|Success|
+|10001|Wrong request method, please check it's a GET ot POST request|
 |10002|Invalid ApiKey|
 |10003|Sign doesn't match|
 |10004|Illegal request parameters|
 |10005|Request frequency exceeds the limit|
 |10006|Unauthorized to execute this request|
 |10007|IP address Unauthorized|
-|10008|Timestamp for this request is invalid|
+|10008|Timestamp for this request is invalid, timestamp must within 1 minute|
+|10009|Unexist endpoint, please check endpoint URL|
 |20001|Trade is not open for this trading pair|
 |20002|Trade of this trading pair is suspended|
 |20003|Invalid price or amount|
-|20004|Price exceeds daily limit|
-|20005|Price exceeds down limit|
-|20006|Cash Amount is less than 10CNY|
 |20007|Price precision error|
 |20008|Amount precision error|
 |20009|Amount is less than the minimum requirement|
 |20010|Cash Amount is less than the minimum requirement|
 |20011|Insufficient balance|
 |20012|Invalid trade type (valid value: buy/sell)|
-|20013|No such order|
+|20013|No order info found|
 |20014|Invalid date (Valid format: 2018-07-25)|
-|20015|Dates exceed the limit|
+|20015|Date exceeds the limit|
 |20018|Your trading rights have been banned by the system|
+|20019|Wrong trading pair symbol, correct format:"usdt_btc", quote asset is in the front|
 
 ## Parameter signature 
 The 'sign' parameter is demanded for each api request. Firstly sort all needed parameters (without sign) and ApiSecret in ascending order by parameters' name. Then connect all the sorted parameters' value into a string. At last perform a MD5 on this string.
@@ -75,7 +75,7 @@ Take the kline api for example:
 	let sign = md5(arr.join(''));
 	console.log(sign);
 
-[Python]
+[Python2.7]
     #!/usr/bin/python
     import hashlib
     m = hashlib.md5()
@@ -855,10 +855,8 @@ POST Parameters:
 {
 	"code":0,
 	"date":1410431266,
-	"success":[1000001, 1000002],
-	"fail":[
-		[1000003, 10001]
-	]
+	"success":["1000001","1000002"],
+	"error":["1000003","1000004"]
 }
 
 ```
@@ -869,7 +867,7 @@ POST Parameters:
 code: Error Code
 date: Second timestamp whern server returned the response
 success: Order IDs cancelled successfully
-fail: [order ID failed to cancel, Error Code]
+error: Order IDs failed to cancel
 ```
 
 
@@ -917,5 +915,3 @@ free: amount free
 frozen: amount frozen
 
 ```
-
-

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.9, Update: 2018-01-23, ©️DigiFinex
+> Version：1.1.10, Update: 2018-01-25, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
 > 
@@ -135,6 +135,102 @@ Take the kline api for example:
 			System.out.println(str);
 			System.out.println(md5(str));
 	   }
+	}
+
+[C#]
+	using System;
+	using System.Collections.Generic;
+	using System.Security.Cryptography;
+	using System.Text;
+	
+	namespace ConsoleApp1
+	{
+	    class Program
+	    {
+	        static void Main(string[] args)
+	        {
+	            DateTimeOffset epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+	            var TimeStampNow = (DateTimeOffset.Now - epoch).TotalSeconds;
+	            
+	            var param = new SortedDictionary<string, string>
+	            {
+	                { "type", "kline_1m" },
+	                { "symbol", "usdt_btc" },
+	                { "timestamp", ((int)TimeStampNow).ToString() },
+	                { "apiKey", "YOUR_APIKEY" },
+	                { "apiSecret", "YOUR_APISECRET" },
+	            };
+	            
+	            var str = String.Join("", param.Values);
+	            StringBuilder sb = new StringBuilder();
+	            using (var md5 = MD5.Create())
+	            {
+	                md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+	                for (int i = 0; i < md5.Hash.Length; i++)
+	                {
+	                    sb.Append(md5.Hash[i].ToString("x2"));
+	                }
+	            }
+	            
+	            var result = sb.ToString();
+	            Console.WriteLine(result);
+	            Console.ReadLine();
+	        }
+	    }
+	}
+
+[C++]
+	#include <iostream>
+	#include <string>
+	#include <map>
+	#include <time.h>
+	#include <openssl/md5.h>
+	
+	#pragma comment(lib, "libeay32MDd")
+	
+	using namespace std;
+	
+	string calculateMD5(string msg)
+	{
+	    string result;
+	    const char* test = msg.c_str();
+	    int i;
+	    MD5_CTX md5;
+	    char buf[32];
+	    unsigned char buffer_md5[16];
+	
+	    MD5_Init(&md5);
+	    MD5_Update(&md5, (const unsigned char *)test, msg.length());
+	    MD5_Final(buffer_md5, &md5);
+	    for (i = 0; i < 16; i++) {
+	        sprintf(buf, "%02x", buffer_md5[i]);
+	        result.append(buf);
+	    }
+	
+	    return result;
+	}
+	
+	int main() {
+	    char strTimestamp[32];
+	    sprintf(strTimestamp, "%d", time(0));
+	    string str;
+	    map<string, string> params
+	    {
+	        {"type",        "kline_1m"},
+	        {"symbol",      "usdt_btc"},
+	        {"timestamp",   strTimestamp},
+	        {"apiKey",      "YOUR_APIKEY"},
+	        {"apiSecret",   "YOUR_APISECRET"},
+	    };
+	    for (auto pair : params)
+	    {
+	        str += pair.second;
+	    }
+	
+	    auto md5 = calculateMD5(str);
+	    cout << md5 << endl;
+	
+	    return 0;
 	}
 ```
 

@@ -1,7 +1,7 @@
 # DigiFinex API Documentation
-> Version：1.1.10, Update: 2018-01-25, ©️DigiFinex
+> Version：1.1.11, Update: 2018-01-28, ©️DigiFinex
 > 
-> The upper limit of Api request frequency is 60 times/min for POST request and 180 times/min for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes.
+> The upper limit of Api request frequency is 300 times/min (all POST requests are accumulated) for POST request and 900 times/min (all GET requests are accumulated) for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes. Be attention, if you exceed this limit multiple times, your account may be blocked. 
 > 
 > The field contentType in request header should be: application/x-www-form-urlencoded
 > 

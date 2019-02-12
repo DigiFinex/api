@@ -1,7 +1,7 @@
 # DigiFinex API Documentation
-> Version：1.1.10, Update: 2019-01-25, ©️DigiFinex
+> Version：1.1.11, Update: 2019-01-28, ©️DigiFinex
 > 
-> Api接口调用频率上限为：GET接口180次/min，POST接口60次/min，超过上限后将暂停调用5分钟
+> Api接口调用频率上限为：GET接口900次/min（所有GET请求累计计算），POST接口300次/min（所有POST请求累计计算），超过上限后将暂停调用5分钟。请注意，如果多次触发频率上线，您的账号有可能被禁用。
 > 
 > Post请求采用：content-type: application/x-www-form-urlencoded
 > 

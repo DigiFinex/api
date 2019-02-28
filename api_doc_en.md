@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.11, Update: 2018-01-28, ©️DigiFinex
+> Version：1.1.12, Update: 2018-02-28, ©️DigiFinex
 > 
 > The upper limit of Api request frequency is 300 times/min (all POST requests are accumulated) for POST request and 900 times/min (all GET requests are accumulated) for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes. Be attention, if you exceed this limit multiple times, your account may be blocked. 
 > 
@@ -27,6 +27,7 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |10007|IP address Unauthorized|
 |10008|Timestamp for this request is invalid, timestamp must within 1 minute|
 |10009|Unexist endpoint, please check endpoint URL|
+|10011|ApiKey expired. Please go to client side to re-create an ApiKey.|
 |20001|Trade is not open for this trading pair|
 |20002|Trade of this trading pair is suspended|
 |20003|Invalid price or amount|

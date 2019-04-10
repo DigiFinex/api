@@ -8,7 +8,7 @@
 > 更多问题可加入电报群交流：https://t.me/digifinex_api
 
 ## 开通API
-前往DigiFinex官网（www.digifinex.com），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
+前往DigiFinex官网（www.digifinex.vip），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
 
 
 ## 错误码

@@ -9,7 +9,7 @@
 
 
 ## Get ApiKey and ApiSecret
-Go to DigiFinex's official website (www.digifinex.com) and register an account. After login, go to 'User Center' -> 'API Setting' to apply your ApiKey and ApiSecret.
+Go to DigiFinex's official website (www.digifinex.vip) and register an account. After login, go to 'User Center' -> 'API Setting' to apply your ApiKey and ApiSecret.
 
 
 ## Error Code

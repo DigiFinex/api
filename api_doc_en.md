@@ -42,6 +42,7 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |20015|Date exceeds the limit|
 |20018|Your trading rights have been banned by the system|
 |20019|Wrong trading pair symbol, correct format:"usdt_btc", quote asset is in the front|
+|50000|Exception error|
 
 ## Parameter signature 
 The 'sign' parameter is demanded for each api request. Firstly sort all needed parameters (without sign) and ApiSecret in ascending order by parameters' name. Then connect all the sorted parameters' value into a string. At last perform a MD5 on this string.

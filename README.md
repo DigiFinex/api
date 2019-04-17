@@ -1,7 +1,7 @@
 # DigiFinex API Documentation
 > Version：1.1.12, Update: 2018-02-28, ©️DigiFinex
 > 
-> Please check API trading rules below **[Digifinex API Trading Rules](#Digifinex API Trading Rules)**. 
+> Please check API trading rules below [Digifinex API Trading Rules](#Digifinex API Trading Rules). 
 > 
 > The field contentType in request header should be: application/x-www-form-urlencoded
 > 

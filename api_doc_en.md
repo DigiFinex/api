@@ -1,7 +1,7 @@
 # DigiFinex API Documentation
 > Version：1.1.12, Update: 2018-02-28, ©️DigiFinex
 > 
-> The upper limit of Api request frequency is 300 times/min (all POST requests are accumulated) for POST request and 900 times/min (all GET requests are accumulated) for GET request. When this limit is exceeded, all Api request will be forbidden for 5 minutes. Be attention, if you exceed this limit multiple times, your account may be blocked. 
+> Please check API trading rules below **[Digifinex API Trading Rules](#Digifinex API Trading Rules)**. 
 > 
 > The field contentType in request header should be: application/x-www-form-urlencoded
 > 
@@ -1013,3 +1013,29 @@ free: amount free
 frozen: amount frozen
 
 ```
+
+
+# Digifinex API Trading Rules
+In order to provide a better API trading environment, avoid malicious manipulation and disruption of the market integrity, DigiFinex hereby publish risk-control quantitative indicators and anti-manipulation rules.
+## 1.	API Requests Hard-Limits
+900 GET requests per minute(all GET requests accumulated), 90 POST requests per minute(all POST requests accumulated).
+## 2.	Quantitative Indicators
+The indicators record and calculated by all orders on certain trading pair within one time period.
+-	Filling Ratio（**FR**）
+FR = Total number of Filled Orders / Total Number of Orders
+-	Filling Weight（**FW**）
+FW = Totall Filled Amount / Total Order Amount
+-	Cancellation Ratio（**CR**）
+CR = Total Number of Fully-Cancelled Orders / Total Number of Orders
+In which the Fully-Cancelled Orders indicate orders with zero-filled amount and cancelled within 5 seconds after order placement.
+
+## 3.	Trigger Conditions
+|Indicator   |Trigger Value   |Trigger Condition   |Calculating Cycle   |
+| :------------: | :------------: | :------------: | :------------: |
+|**FR**   |<0.01   |Number of Orders > 299   |10 minutes   |
+|**FW**   |<0.01   |Number of Orders > 299   |10 minutes   |
+|**CR**   |>0.95   |Number of Orders > 299   |10 minutes   |
+
+
+## 4.	Risk Control and API Ban
+API Users exceeded the hard-limits or violated any anti-manipulation rules will be banned for API trading for 30 minutes. The time will extend to 24 hours after third ban within 3 hours. During that time, banned user cannot place new order through API or creat new API key, order placement and cancellation will not be affected whatsoever. Be attention, if you keep violating the rules, your account might be blocked.

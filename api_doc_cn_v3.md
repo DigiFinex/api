@@ -2,6 +2,8 @@
 
 > 默认返回支持的所有交易对
 
+If you are in mainland China, please use`openapi.digifinex.vip` `replace openapi.digifinex.com`
+
 * URL：`https://openapi.digifinex.com/v3/markets`
 * 请求方法: GET
 * 请求参数: 

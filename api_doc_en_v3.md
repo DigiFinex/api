@@ -2,6 +2,8 @@
 
 > Return all supported trading pairs by default
 
+`If you are in mainland China, please use openapi.digifinex.vip replace openapi.digifinex.com`
+
 * URL：`https://openapi.digifinex.com/v3/markets`
 * Request Method: GET
 * Request Parameters: 

@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.12, Update: 2018-02-28, ©️DigiFinex
+> Version：1.5.20, Update: 2019-05-20, ©️DigiFinex
 > 
 > Please check API trading rules below **[Digifinex API Trading Rules](#Digifinex API Trading Rules)**. 
 > 
@@ -9,7 +9,7 @@
 
 
 ## Get ApiKey and ApiSecret
-Go to DigiFinex's official website (www.digifinex.com) [ if you are in China,pls go to www.digifinex.vip ] and register an account. After login, go to 'User Center' -> 'API Setting' to apply your ApiKey and ApiSecret.
+Go to DigiFinex's official website (www.digifinex.vip) and register an account. After login, go to 'User Center' -> 'API Setting' to apply your ApiKey and ApiSecret.
 
 
 ## Error Code
@@ -42,6 +42,7 @@ The parameter 'code' is included in the response of each Api. If its value is 0,
 |20015|Date exceeds the limit|
 |20018|Your trading rights have been banned by the system|
 |20019|Wrong trading pair symbol, correct format:"usdt_btc", quote asset is in the front|
+|20020|You have violated the API operation trading rules and temporarily forbid trading. At present, we have certain restrictions on the user's transaction rate and withdrawal rate.|
 |50000|Exception error|
 
 ## Parameter signature 
@@ -239,7 +240,7 @@ Take the kline api for example:
 ## Market Information
 ### Ticker price
 
-* URL：`https://openapi.digifinex.com/v2/ticker`
+* URL：`https://openapi.digifinex.vip/v2/ticker`
 * Request Method: GET
 * Request Parameters: 
 
@@ -253,7 +254,7 @@ Take the kline api for example:
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
+GET https://openapi.digifinex.vip/v2/ticker?apiKey=59328e10e296a
 
 # Response
 {
@@ -300,7 +301,7 @@ change: 24h Change（compared with price 24h ago）, 0.0108 means +1.08% increas
 ```
 
 ### OTC Market Price
-* URL：`https://openapi.digifinex.com/v2/otc_market_price`
+* URL：`https://openapi.digifinex.vip/v2/otc_market_price`
 * Request Method: GET
 * Request Parameters: 
 
@@ -314,7 +315,7 @@ change: 24h Change（compared with price 24h ago）, 0.0108 means +1.08% increas
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/otc_market_price?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -338,7 +339,7 @@ price: Market Price
 
 
 ### Market Depth
-* URL：`https://openapi.digifinex.com/v2/depth`
+* URL：`https://openapi.digifinex.vip/v2/depth`
 * Request Method: GET
 * Request Parameters: 
 
@@ -353,7 +354,7 @@ price: Market Price
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -386,7 +387,7 @@ bids: Bid depth in price descending order
 
 
 ### Recent Trade List
-* URL：`https://openapi.digifinex.com/v2/trade_detail`
+* URL：`https://openapi.digifinex.vip/v2/trade_detail`
 * Request Method: GET
 * Request Parameters: 
 
@@ -401,7 +402,7 @@ bids: Bid depth in price descending order
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -439,7 +440,7 @@ type: buy/sell, buy means the maker is the buyer
 
 
 ### K-line data
-* URL：`https://openapi.digifinex.com/v2/kline`
+* URL：`https://openapi.digifinex.vip/v2/kline`
 * Request Method: GET
 * Request Parameters: 
 
@@ -455,7 +456,7 @@ type: buy/sell, buy means the maker is the buyer
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -501,7 +502,7 @@ code: Error Code
 ### Trading pair information
 > To obtain authorized trading pairs and the precision limit for placing orders
 
-* URL：`https://openapi.digifinex.com/v2/trade_pairs`
+* URL：`https://openapi.digifinex.vip/v2/trade_pairs`
 * Request Method: GET
 * Request Parameters: 
 
@@ -515,7 +516,7 @@ code: Error Code
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/trade_pairs?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -547,7 +548,7 @@ E.g. "usdt_btc":[4，2，0.001，10.0]
 
 ### Limit price order
 
-* URL：`https://openapi.digifinex.com/v2/trade`
+* URL：`https://openapi.digifinex.vip/v2/trade`
 * Request Method: POST
 * Request Parameters: 
 
@@ -566,7 +567,7 @@ E.g. "usdt_btc":[4，2，0.001，10.0]
 
 ```
 # Request
-POST https://openapi.digifinex.com/v2/trade
+POST https://openapi.digifinex.vip/v2/trade
 POST Parameters: 
 	symbol=usdt_btc
 	price=6000.12
@@ -592,7 +593,7 @@ order_id: Order ID
 ```
 
 ### Open orders
-* URL：`https://openapi.digifinex.com/v2/open_orders`
+* URL：`https://openapi.digifinex.vip/v2/open_orders`
 * Request Method: GET
 * Request Parameters: 
 
@@ -609,7 +610,7 @@ order_id: Order ID
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -676,7 +677,7 @@ orders: order detail in time descending order
 ### Order history
 > Open order not included. Only supports historical orders of last 3 days
 
-* URL：`https://openapi.digifinex.com/v2/order_history`
+* URL：`https://openapi.digifinex.vip/v2/order_history`
 * Request Method: GET
 * Request Parameters: 
 
@@ -694,7 +695,7 @@ orders: order detail in time descending order
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/order_history?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -778,7 +779,7 @@ orders: order details
 ### Order Information
 > A quick lookup of order status, mutiple order IDs supported
 
-* URL：`https://openapi.digifinex.com/v2/order_info`
+* URL：`https://openapi.digifinex.vip/v2/order_info`
 * Request Method: GET
 * Request Parameters: 
 
@@ -793,7 +794,7 @@ orders: order details
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -851,7 +852,7 @@ status: order status：
 
 ### Order detail
 
-* URL：`https://openapi.digifinex.com/v2/order_detail`
+* URL：`https://openapi.digifinex.vip/v2/order_detail`
 * Request Method: GET
 * Request Parameters: 
 
@@ -866,7 +867,7 @@ status: order status：
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -927,7 +928,7 @@ detail: transaction detail of last 15 days
 
 
 ### Cancel order
-* URL：`https://openapi.digifinex.com/v2/cancel_order`
+* URL：`https://openapi.digifinex.vip/v2/cancel_order`
 * Request Method: POST
 * Request Parameters: 
 
@@ -942,7 +943,7 @@ detail: transaction detail of last 15 days
 
 ```
 # Request
-POST https://openapi.digifinex.com/v2/order_info
+POST https://openapi.digifinex.vip/v2/order_info
 POST Parameters: 
 	order_id=1000001,1000002,1000003
 	apiKey=59328e10e296a
@@ -970,7 +971,7 @@ error: Order IDs failed to cancel
 
 
 ### My Position
-* URL：`https://openapi.digifinex.com/v2/myposition`
+* URL：`https://openapi.digifinex.vip/v2/myposition`
 * Request Method: GET
 * Request Parameters: 
 
@@ -984,7 +985,7 @@ error: Order IDs failed to cancel
 
 ```
 # Request
-GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.vip/v2/myposition?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {

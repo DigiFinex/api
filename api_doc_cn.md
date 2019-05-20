@@ -1,5 +1,5 @@
 # DigiFinex API Documentation
-> Version：1.1.12, Update: 2019-02-28, ©️DigiFinex
+> Version：1.5.20, Update: 2019-05-20, ©️DigiFinex
 > 
 > API 交易规则请见 **[Digifinex API交易规则说明](#Digifinex API交易规则说明)**。
 > 
@@ -42,6 +42,7 @@
 |20015|order_history接口查询的订单日期超过限制|
 |20018|您的交易权限已被系统限制|
 |20019|交易对symbol错误，正确格式："usdt_btc"，计价币在前交易币在后|
+|20020|您违反了API操作交易规则，暂时禁止交易。目前我们对用户的成交率，撤单率有一定限制|
 |50000|异常错误|
 
 ## 参数签名

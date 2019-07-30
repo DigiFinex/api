@@ -268,6 +268,7 @@ GET https://openapi.digifinex.vip/v2/ticker?apiKey=59328e10e296a
 			"low":6617.60,
 			"sell":6714.12,
 			"vol":15091.39199642,
+			"base_vol":143398406.74998,
 			"change":0.0108
 		},
 		"btc_eth":{
@@ -277,6 +278,7 @@ GET https://openapi.digifinex.vip/v2/ticker?apiKey=59328e10e296a
 			"low":0.117405,
 			"sell":0.119341,
 			"vol":39159.39199642,
+			"base_vol":857.12077202,
 			"change":-0.0812
 		},
 		...
@@ -295,7 +297,8 @@ high: 24h highest price
 last: latest price
 low: 24h lowest price
 sell: 1st ask price
-vol: 24h volume
+vol: 24h volume(in base asset)
+base_vol: 24h成交额(in quote asset)
 change: 24h Change（compared with price 24h ago）, 0.0108 means +1.08% increasement
 
 ```
@@ -1015,12 +1018,12 @@ frozen: amount frozen
 
 ```
 
+## Interface Requests Hard-Limits
+900 GET requests per minute(all GET requests accumulated), 90 POST requests per minute(all POST requests accumulated).
 
 # Digifinex API Trading Rules
 In order to provide a better API trading environment, avoid malicious manipulation and disruption of the market integrity, DigiFinex hereby publish risk-control quantitative indicators and anti-manipulation rules.
-## 1.	API Requests Hard-Limits
-900 GET requests per minute(all GET requests accumulated), 90 POST requests per minute(all POST requests accumulated).
-## 2.	Quantitative Indicators
+## 1.	Quantitative Indicators
 The indicators record and calculated by all orders on certain trading pair within one time period.
 -	Filling Ratio（**FR**）
 FR = Total number of Filled Orders / Total Number of Orders
@@ -1030,7 +1033,7 @@ FW = Totall Filled Amount / Total Order Amount
 CR = Total Number of Fully-Cancelled Orders / Total Number of Orders
 In which the Fully-Cancelled Orders indicate orders with zero-filled amount and cancelled within 5 seconds after order placement.
 
-## 3.	Trigger Conditions
+## 2.	Trigger Conditions
 |Indicator   |Trigger Value   |Trigger Condition   |Calculating Cycle   |
 | :------------: | :------------: | :------------: | :------------: |
 |**FR**   |<0.01   |Number of Orders > 299   |10 minutes   |
@@ -1038,5 +1041,5 @@ In which the Fully-Cancelled Orders indicate orders with zero-filled amount and 
 |**CR**   |>0.95   |Number of Orders > 299   |10 minutes   |
 
 
-## 4.	Risk Control and API Ban
+## 3.	Risk Control and API Ban
 API Users exceeded the hard-limits or violated any anti-manipulation rules will be banned for API trading for 30 minutes. The time will extend to 24 hours after third ban within 3 hours. During that time, banned user cannot place new order through API or creat new API key, order placement and cancellation will not be affected whatsoever. Be attention, if you keep violating the rules, your account might be blocked.

@@ -14,33 +14,33 @@ please use `zlib deflate`
 
 public
 
-- [server.ping](#Ping) 
+- [server.ping](#Ping)-
 - [server.time](#Time)
-- [trades.subscribe](#Trades subscription)
-- [trades.update](#Trades push)
-- [trades.unsubscribe](#Cancel trades subscription)
-- [depth.subscribe](#Depth subscription)
-- [depth.update](#Depth push)
-- [depth.unsubscribe](#Cancel depth subscription)
-- [all_ticker.subscribe](#All Ticker subscriptions)
-- [all_ticker.update](#All Ticker push)
-- [all_ticker.unsubscribe](#Cancel all Ticker subscriptions)
-- [ticker.subscribe](#Ticker subscription)
-- [ticker.update](#Ticker push)
-- [ticker.unsubscribe](#Cancel Ticker subscription)
+- [trades.subscribe](#Trades-subscription)
+- [trades.update](#Trades-push)
+- [trades.unsubscribe](#Cancel-trades-subscription)
+- [depth.subscribe](#Depth-subscription)
+- [depth.update](#Depth-push)
+- [depth.unsubscribe](#Cancel-depth-subscription)
+- [all_ticker.subscribe](#All-Ticker-subscriptions)
+- [all_ticker.update](#All-Ticker-push)
+- [all_ticker.unsubscribe](#Cancel-all-Ticker-subscriptions)
+- [ticker.subscribe](#Ticker-subscription)
+- [ticker.update](#Ticker-push)
+- [ticker.unsubscribe](#Cancel-Ticker-subscription)
 
 private
 
 - [server.auth](#Auth)
-- [order.subscribe](#Order subscription)
-- [order.update](#Order push)
-- [order.unsubscribe](#Cancel order subscription)
-- [order_algo.subscribe](#OrderAlgo subscription)
-- [order_algo.update](#OrderAlgo push)
-- [order_algo.unsubscribe](#Cancel OrderAlgo subscription)
-- [balance.subscribe](#Balance subscription)
-- [balance.update](#Balance push)
-- [balance.unsubscribe](#Cancel balance subscription)
+- [order.subscribe](#Order-subscription)
+- [order.update](#Order-push)
+- [order.unsubscribe](#Cancel-order-subscription)
+- [order_algo.subscribe](#OrderAlgo-subscription)
+- [order_algo.update](#OrderAlgo-push)
+- [order_algo.unsubscribe](#Cancel-OrderAlgo-subscription)
+- [balance.subscribe](#Balance-subscription)
+- [balance.update](#Balance-push)
+- [balance.unsubscribe](#Cancel-balance-subscription)
 
 ## System state API
 

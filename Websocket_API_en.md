@@ -14,7 +14,7 @@ please use `zlib deflate`
 
 public
 
-- [server.ping](#Ping)-
+- [server.ping](#Ping)
 - [server.time](#Time)
 - [trades.subscribe](#Trades-subscription)
 - [trades.update](#Trades-push)

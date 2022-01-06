@@ -8,7 +8,7 @@
 > 更多问题可加入电报群交流：https://t.me/digifinex_api
 
 ## 开通API
-前往DigiFinex官网（www.digifinex.vip），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
+前往DigiFinex官网（www.digifinex.com），注册账号，登录后进入“个人中心”-“API管理”页面，获取ApiKey和ApiSecret。
 
 
 ## 错误码
@@ -240,7 +240,7 @@
 ## 市场行情
 ### 交易对当前价格
 
-* URL：`https://openapi.digifinex.vip/v2/ticker`
+* URL：`https://openapi.digifinex.com/v2/ticker`
 * 请求方法: GET
 * 请求参数: 
 
@@ -253,7 +253,7 @@
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/ticker?apiKey=59328e10e296a
+GET https://openapi.digifinex.com/v2/ticker?apiKey=59328e10e296a
 
 # Response
 {
@@ -303,7 +303,7 @@ change: 24h涨跌幅百分比（当前价格与24h前价格相比）, 取值0.01
 ```
 
 ### OTC市场价查询
-* URL：`https://openapi.digifinex.vip/v2/otc_market_price`
+* URL：`https://openapi.digifinex.com/v2/otc_market_price`
 * 请求方法: GET
 * 请求参数: 
 
@@ -317,7 +317,7 @@ change: 24h涨跌幅百分比（当前价格与24h前价格相比）, 取值0.01
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/otc_market_price?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/otc_market_price?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -341,7 +341,7 @@ price: 市场价
 
 
 ### 买卖盘深度
-* URL：`https://openapi.digifinex.vip/v2/depth`
+* URL：`https://openapi.digifinex.com/v2/depth`
 * 请求方法: GET
 * 请求参数: 
 
@@ -356,7 +356,7 @@ price: 市场价
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/depth?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -389,7 +389,7 @@ bids: 买方深度，按价格倒序排列
 
 
 ### 最新成交记录
-* URL：`https://openapi.digifinex.vip/v2/trade_detail`
+* URL：`https://openapi.digifinex.com/v2/trade_detail`
 * 请求方法: GET
 * 请求参数: 
 
@@ -404,7 +404,7 @@ bids: 买方深度，按价格倒序排列
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/trade_detail?symbol=usdt_btc&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -442,7 +442,7 @@ type: buy/sell
 
 
 ### K线数据
-* URL：`https://openapi.digifinex.vip/v2/kline`
+* URL：`https://openapi.digifinex.com/v2/kline`
 * 请求方法: GET
 * 请求参数: 
 
@@ -458,7 +458,7 @@ type: buy/sell
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/kline?symbol=usdt_btc&type=kline_1m&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -504,7 +504,7 @@ code: 错误码
 ### 交易对信息查询
 > 获取开通权限的交易对，以及每个交易对的下单精度限制
 
-* URL：`https://openapi.digifinex.vip/v2/trade_pairs`
+* URL：`https://openapi.digifinex.com/v2/trade_pairs`
 * 请求方法: GET
 * 请求参数: 
 
@@ -518,7 +518,7 @@ code: 错误码
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/trade_pairs?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/trade_pairs?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -547,7 +547,7 @@ BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（
 
 ### 限价下单
 
-* URL：`https://openapi.digifinex.vip/v2/trade`
+* URL：`https://openapi.digifinex.com/v2/trade`
 * 请求方法: POST
 * 请求参数: 
 
@@ -566,7 +566,7 @@ BTC对USDT交易对，下单数量（BTC量）支持4位小数，下单价格（
 
 ```
 # Request
-POST https://openapi.digifinex.vip/v2/trade
+POST https://openapi.digifinex.com/v2/trade
 POST参数: 
 	symbol=usdt_btc
 	price=6000.12
@@ -592,7 +592,7 @@ order_id: 订单ID
 ```
 
 ### 活跃订单查询
-* URL：`https://openapi.digifinex.vip/v2/open_orders`
+* URL：`https://openapi.digifinex.com/v2/open_orders`
 * 请求方法: GET
 * 请求参数: 
 
@@ -609,7 +609,7 @@ order_id: 订单ID
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/open_orders?symbol=usdt_btc&page=1&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -674,7 +674,7 @@ orders: 订单信息按照下单时间倒序排列
 ### 历史订单查询
 > 不包括活跃订单，只支持查询最近3天的历史订单
 
-* URL：`https://openapi.digifinex.vip/v2/order_history`
+* URL：`https://openapi.digifinex.com/v2/order_history`
 * 请求方法: GET
 * 请求参数: 
 
@@ -692,7 +692,7 @@ orders: 订单信息按照下单时间倒序排列
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/order_history?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/order_history?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -772,7 +772,7 @@ orders: 订单信息按照下单时间倒序排列
 
 ### 订单信息查询
 
-* URL：`https://openapi.digifinex.vip/v2/order_info`
+* URL：`https://openapi.digifinex.com/v2/order_info`
 * 请求方法: GET
 * 请求参数: 
 
@@ -787,7 +787,7 @@ orders: 订单信息按照下单时间倒序排列
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/order_info?order_id=1000001,1000002&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -841,7 +841,7 @@ status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成�
 
 ### 订单成交明细
 
-* URL：`https://openapi.digifinex.vip/v2/order_detail`
+* URL：`https://openapi.digifinex.com/v2/order_detail`
 * 请求方法: GET
 * 请求参数: 
 
@@ -856,7 +856,7 @@ status: 订单状态：0未成交 1部分成交 2全部成交 3已撤销未成�
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/order_detail?order_id=1000001&apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {
@@ -912,7 +912,7 @@ detail: 具体成交明细（仅支持最近15天的数据）
 
 
 ### 撤销订单
-* URL：`https://openapi.digifinex.vip/v2/cancel_order`
+* URL：`https://openapi.digifinex.com/v2/cancel_order`
 * 请求方法: POST
 * 请求参数: 
 
@@ -927,7 +927,7 @@ detail: 具体成交明细（仅支持最近15天的数据）
 
 ```
 # Request
-POST https://openapi.digifinex.vip/v2/cancel_order
+POST https://openapi.digifinex.com/v2/cancel_order
 POST参数: 
 	order_id=1000001,1000002,1000003
 	apiKey=59328e10e296a
@@ -955,7 +955,7 @@ error: 撤销失败的订单ID
 
 
 ### 查询自己的持仓
-* URL：`https://openapi.digifinex.vip/v2/myposition`
+* URL：`https://openapi.digifinex.com/v2/myposition`
 * 请求方法: GET
 * 请求参数: 
 
@@ -969,7 +969,7 @@ error: 撤销失败的订单ID
 
 ```
 # Request
-GET https://openapi.digifinex.vip/v2/myposition?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
+GET https://openapi.digifinex.com/v2/myposition?apiKey=59328e10e296a&timestamp=1410431266&sign=0a8d39b515fd8f3f8b848a4c459884c2
 
 # Response
 {

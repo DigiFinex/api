@@ -4,7 +4,7 @@
 
 - `wss://openapi.digifinex.com/ws/v1/`
 
-If youa are a user of Chinese mainland，please use `openapi.digifinex.vip` instead of `openapi.digifinex.com`
+
 
 ## Compression algorithm
 

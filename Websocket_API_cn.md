@@ -4,7 +4,7 @@
 
 - `wss://openapi.digifinex.com/ws/v1/`
 
-如果您在中国大陆地区使用，请用 `openapi.digifinex.vip` 代替 `openapi.digifinex.com`
+
 
 ## 压缩算法
 
